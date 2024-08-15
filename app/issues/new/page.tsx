@@ -33,6 +33,7 @@ const NewIssuePage = () => {
   )
   return (
     <div className="max-w-xl">
+      
       {error && <Callout.Root className="mb-5" color="red">
         <Callout.Text>{error}</Callout.Text>
       </Callout.Root> }
