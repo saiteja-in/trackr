@@ -14,4 +14,4 @@ import prisma from "@/prisma/client"
         data:{title:body.title,description:body.description}
     })
     return NextResponse.json(newIssue,{status:201})
- }
+ } 
