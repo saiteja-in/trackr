@@ -13,6 +13,7 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import Skeleton from "react-loading-skeleton";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -47,6 +48,7 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
+            {status==="loading" && <Skeleton width="3rem" />}
             {status === "authenticated" && (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
