@@ -5,7 +5,14 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
-import { Avatar, Box, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -28,9 +35,8 @@ const NavBar = () => {
                 <li key={link.href}>
                   <Link
                     className={classnames({
-                      "text-zinc-900": link.href === currentPath,
-                      "text-zinc-500": link.href !== currentPath,
-                      "hover:text-zinc-800 transition-colors": true,
+                      "nav-link":true,
+                      "!text-zinc-900": link.href === currentPath,
                     })}
                     href={link.href}
                   >
@@ -44,23 +50,27 @@ const NavBar = () => {
             {status === "authenticated" && (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <Avatar src={session.user!.image!} fallback="?" size="2" className="cursor-pointer" radius="full"/>
+                  <Avatar
+                    src={session.user!.image!}
+                    fallback="?"
+                    size="2"
+                    className="cursor-pointer"
+                    radius="full"
+                    referrerPolicy="no-referrer"
+                  />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Label>
-                    <Text size="2">
-                      {session.user!.email}
-                    </Text>
+                    <Text size="2">{session.user!.email}</Text>
                   </DropdownMenu.Label>
                   <DropdownMenu.Item>
-
-               <Link href="/api/auth/signout">Log out</Link>
+                    <Link href="/api/auth/signout">Log out</Link>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
-              <Link href="/api/auth/signin">Log in</Link>
+              <Link className="nav-link" href="/api/auth/signin">Log in</Link>
             )}
           </Box>
         </Flex>
