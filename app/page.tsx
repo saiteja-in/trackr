@@ -1,10 +1,9 @@
 import React from 'react'
+import Pagination from './components/Pagination'
 
 const page = () => {
   return (
-    <div>
-      Hello world
-    </div>
+    <Pagination itemCount={100} pageSize={10} currentPage={5} />
   )
 }
 
