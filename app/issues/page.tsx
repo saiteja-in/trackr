@@ -7,12 +7,18 @@ import Link from "../components/Link";
 import NextLink from "next/link";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
+import Pagination from "../components/Pagination";
 
-const IssuesPage = async ({
-  searchParams,
-}: {
-  searchParams: { status: Status; orderBy: keyof Issue; orderDirection?: "asc" | "desc" };
-}) => {
+interface Props {
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    orderDirection?: "asc" | "desc";
+    page:string;
+  };
+}
+
+const IssuesPage = async ({ searchParams }: Props) => {
   console.log(searchParams.status);
 
   const columns: { label: string; value: keyof Issue; className?: string }[] = [
@@ -29,17 +35,27 @@ const IssuesPage = async ({
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+  const where={status}
 
-  const orderBy = columns.map((column) => column.value).includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: searchParams.orderDirection || 'asc' }
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: searchParams.orderDirection || "asc" }
     : undefined;
+
+  const page=parseInt(searchParams.page) || 1;
+  const pageSize=10;
+
 
   const issues = await prisma.issue.findMany({
     where: {
       status,
     },
     orderBy,
+    skip:(page-1)*pageSize,
+    take:pageSize
   });
+  const issueCount=await prisma.issue.count({where})
 
   return (
     <div>
@@ -48,13 +64,18 @@ const IssuesPage = async ({
         <Table.Header>
           <Table.Row>
             {columns.map((column) => {
-              const isCurrentOrderColumn = column.value === searchParams.orderBy;
-              const nextOrderDirection = isCurrentOrderColumn && searchParams.orderDirection === "asc"
-                ? "desc"
-                : "asc";
+              const isCurrentOrderColumn =
+                column.value === searchParams.orderBy;
+              const nextOrderDirection =
+                isCurrentOrderColumn && searchParams.orderDirection === "asc"
+                  ? "desc"
+                  : "asc";
 
               return (
-                <Table.ColumnHeaderCell key={column.value} className={column.className}>
+                <Table.ColumnHeaderCell
+                  key={column.value}
+                  className={column.className}
+                >
                   <NextLink
                     href={{
                       query: {
@@ -96,6 +117,7 @@ const IssuesPage = async ({
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination pageSize={pageSize} currentPage={page} itemCount={issueCount}/>
     </div>
   );
 };
