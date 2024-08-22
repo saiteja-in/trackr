@@ -7,6 +7,7 @@ import LatestIssues from "./LatestIssues";
 import IssueSummary from "./IssueSummary";
 import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
+import { Metadata } from "next";
 
 const page = async() => {
   const open=await prisma.issue.count({where:{status:'OPEN'}})
@@ -30,3 +31,8 @@ const page = async() => {
 };
  
 export default page;
+
+export const metadata:Metadata={
+  title:'Trackr',
+  description:'View a summary of project issues'
+}

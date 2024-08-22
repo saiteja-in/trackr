@@ -9,6 +9,7 @@ import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
 import Pagination from "../components/Pagination";
 import IssueTable, { columnName } from "./IssueTable";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: {
@@ -67,3 +68,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
 };
 
 export default IssuesPage;
+
+export const metadata:Metadata={
+  title:'Trackr - Issue List',
+  description:'View a summary of project issues'
+}
