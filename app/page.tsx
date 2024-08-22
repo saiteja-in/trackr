@@ -3,6 +3,7 @@ import Pagination from "./components/Pagination";
 import { AlertDialog, Avatar, Badge, Blockquote, Box, Button, Checkbox, Code, Flex, IconButton, Popover, Text, TextArea } from "@radix-ui/themes";
 import { ChatBubbleIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import LatestIssues from "./LatestIssues";
+import IssueSummary from "./IssueSummary";
 
 const page = ({ searchParams }: { searchParams: { page: string } }) => {
   return (
@@ -58,6 +59,7 @@ const page = ({ searchParams }: { searchParams: { page: string } }) => {
 </Popover.Root>
 
 <LatestIssues />
+<IssueSummary open={10} inProgress={5} closed={6} />
     </Flex>
   );
 };
