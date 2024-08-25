@@ -56,6 +56,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
     skip:(page-1)*pageSize,
     take:pageSize
   });
+
   const issueCount=await prisma.issue.count({where})
 
   return (
