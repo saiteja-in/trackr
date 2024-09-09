@@ -20,6 +20,11 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { Issue } from "@prisma/client";
 
 type IssueFormData = z.infer<typeof createIssueSchema>;
+//export const createIssueSchema = z.object({
+//   title: z.string().min(1, "Title is required").max(255),
+//   description: z.string().min(1, "Description is required").max(65535),
+// });
+//  ^ this converts into type IssueFormData={title:string,description:string}                                          
 
 const IssueForm = ({issue}:{issue?:Issue}) => {
   const router = useRouter();
@@ -27,15 +32,13 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors ,isSubmitting},
   } = useForm<IssueFormData>({
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
-  const [isSubmitting, setSubmitting] = useState(false);
   const onSubmit = handleSubmit(async (data) => {
     try {
-      setSubmitting(true);
       if(issue)
         await axios.patch('/api/issues/'+issue.id,data);
       else
@@ -43,7 +46,6 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
       router.push("/issues");
       router.refresh()
     } catch (error) {
-      setSubmitting(false);
       console.log(error);
       setError("An unexpected error occured");
     }
