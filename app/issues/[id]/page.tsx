@@ -12,6 +12,7 @@ import { Metadata } from "next";
 interface Props {
   params: { id: string };
 }
+//this will directly take the params from the url with id as key
 const IssueDetailPage = async ({ params }: Props) => {
   const session= await getServerSession(authOptions)
   if (isNaN(parseInt(params.id))) notFound();

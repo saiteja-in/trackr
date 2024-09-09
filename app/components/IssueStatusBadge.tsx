@@ -4,7 +4,8 @@ import React from "react";
 
 interface Props {
   status: Status;
-}
+} 
+// Record provides key-value pairs 
 const statusMap: Record<
   Status,
   { label: string; color: "red" | "violet" | "green" }

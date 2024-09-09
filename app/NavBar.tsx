@@ -24,20 +24,21 @@ const NavBar = () => {
     { label: "Issues", href: "/issues" },
   ];
   return (
-    <nav className=" border-b mb-5 px-5 h-14 py-3">
+    <nav className=" border-b mb-5 px-5 h-14 py-4">
       <Container>
         <Flex justify="between">
           <Flex align="center" gap="3">
             <Link href="/">
-              <PiBugDroidFill className="text-2xl" />
+              <PiBugDroidFill className="text-2xl text-red-500" />
             </Link>
             <ul className="flex space-x-6">
               {links.map((link) => (
                 <li key={link.href}>
                   <Link
                     className={classnames({
-                      "nav-link":true,
-                      "!text-zinc-900": link.href === currentPath,
+                      'text-violet-800 font-medium':link.href===currentPath,
+                      'text-violet-400 font-medium':link.href!==currentPath,
+                      'hover:text-violet-800 transition-colors':true
                     })}
                     href={link.href}
                   >
